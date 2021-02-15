@@ -7,7 +7,7 @@ function App() {
   const [index, setIndex] = useState(0);
 
   return (
-    <se className='section'>
+    <section className='section'>
       <div className='title'>
         <h2>
           <span>/</span>Reviews
@@ -15,21 +15,23 @@ function App() {
       </div>
       <div className='section-center'>
         {/* iterate over data */}
-        {people.map((person, index) => {
-          {
+        {people.map((person, personIndex) => {
             /* destructure info from person */
-          }
           const { id, image, name, title, quote } = person;
-          {
             /* TODO add more */
-          }
+        
 
-          {
-            /* always need a key when iterating over objects/arrays */
+            // manage carousel slides by applying classes 
+            // 
+          let position = personIndex === index ? 'activeSlide' : 'nextSlide'; 
+          // set previous slide (or last slide if first is current) as prev
+          if (personIndex === index -1 || (index === 0 && personIndex === people.length - 1)) {
+            position = 'lastSlide'
           }
           return (
-            <article key={id}>
-              <img src={image} alt={name} />
+            // use key when iterating
+            <article key={id} className={position}>
+              <img src={image} alt={name} className='person-img' />
               <h4>{name}</h4>
               <p className='title'>{title}</p>
               <p className='text'>{quote}</p>
@@ -37,6 +39,12 @@ function App() {
             </article>
           );
         })}
+        <button className='prev'>
+          <FiChevronLeft />
+        </button>
+        <button className='next'>
+          <FiChevronRight />
+        </button>
       </div>
     </section>
   );
