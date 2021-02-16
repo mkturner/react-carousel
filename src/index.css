@@ -240,19 +240,20 @@ article {
   left: 0;
   width: 100%;
   height: 100%;
-  /* opacity: 0; */
+  opacity: 0;
   transition: var(--transition);
 }
 /* The current slide gets this class, center */
 article.activeSlide {
+  /* only show current slide */
   opacity: 1;
   transform: translateX(0);
 }
-/* the previous slide gets this class, help to the left */
+/* the previous slide gets this class, pushed to the left */
 article.lastSlide {
   transform: translateX(-100%);
 }
-/* By default, all slides get this class, held to the right */
+/* By default, all other slides get this class, pushed to the right */
 article.nextSlide {
   transform: translateX(100%);
 }

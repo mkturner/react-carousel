@@ -4,7 +4,9 @@ import { FaQuoteRight } from 'react-icons/fa';
 import data from './data';
 function App() {
   const [people, setPeople] = useState(data);
-  const [index, setIndex] = useState(0);
+  let [index, setIndex] = useState(0);
+
+
 
   return (
     <section className='section'>
@@ -16,17 +18,19 @@ function App() {
       <div className='section-center'>
         {/* iterate over data */}
         {people.map((person, personIndex) => {
-            /* destructure info from person */
+          /* destructure info from person */
           const { id, image, name, title, quote } = person;
-            /* TODO add more */
-        
-
-            // manage carousel slides by applying classes 
-            // 
-          let position = personIndex === index ? 'activeSlide' : 'nextSlide'; 
+          /* TODO add more */
+         
+          // manage carousel slides by applying classes
+          //
+          let position = personIndex === index ? 'activeSlide' : 'nextSlide';
           // set previous slide (or last slide if first is current) as prev
-          if (personIndex === index -1 || (index === 0 && personIndex === people.length - 1)) {
-            position = 'lastSlide'
+          if (
+            personIndex === index - 1 ||
+            (index === 0 && personIndex === people.length - 1)
+          ) {
+            position = 'lastSlide';
           }
           return (
             // use key when iterating
@@ -39,10 +43,16 @@ function App() {
             </article>
           );
         })}
-        <button className='prev'>
+        <button
+          className='prev'
+          onClick={() => setIndex((--index + people.length) % people.length)}
+        >
           <FiChevronLeft />
         </button>
-        <button className='next'>
+        <button
+          className='next'
+          onClick={() => setIndex(++index % people.length)}
+        >
           <FiChevronRight />
         </button>
       </div>
