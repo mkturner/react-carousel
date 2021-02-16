@@ -6,8 +6,23 @@ function App() {
   const [people, setPeople] = useState(data);
   let [index, setIndex] = useState(0);
 
-  const next = () => { return (index + 1) % people.length }
-  const prev = () => { return ((index - 1) + people.length) % people.length }
+  const next = (indexCounter, arrayRef) => {
+    return (indexCounter + 1) % arrayRef.length;
+  };
+  const prev = (indexCounter, arrayRef) => {
+    return (indexCounter - 1 + arrayRef.length) % arrayRef.length;
+  };
+
+  // Auto play
+  useEffect(() => {
+    // change slide every five seconds
+    let autoplay = setInterval(() => {
+      setIndex(next(index, people));
+    }, 5000);
+
+    // cleanup, remove interval
+    return () => clearInterval(autoplay);
+  }, [index, people]);
 
   return (
     <section className='section'>
@@ -27,7 +42,7 @@ function App() {
           //
           let position = personIndex === index ? 'activeSlide' : 'nextSlide';
           // set previous slide (or last slide if first is current) as prev
-          if (personIndex === prev()) {
+          if (personIndex === prev(index, people)) {
             position = 'lastSlide';
           }
           return (
@@ -41,16 +56,10 @@ function App() {
             </article>
           );
         })}
-        <button
-          className='prev'
-          onClick={() => setIndex(prev())}
-        >
+        <button className='prev' onClick={() => setIndex(prev(index, people))}>
           <FiChevronLeft />
         </button>
-        <button
-          className='next'
-          onClick={() => setIndex(next())}
-        >
+        <button className='next' onClick={() => setIndex(next(index, people))}>
           <FiChevronRight />
         </button>
       </div>
