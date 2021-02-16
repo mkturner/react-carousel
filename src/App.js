@@ -6,7 +6,8 @@ function App() {
   const [people, setPeople] = useState(data);
   let [index, setIndex] = useState(0);
 
-
+  const next = () => { return (index + 1) % people.length }
+  const prev = () => { return ((index - 1) + people.length) % people.length }
 
   return (
     <section className='section'>
@@ -21,15 +22,12 @@ function App() {
           /* destructure info from person */
           const { id, image, name, title, quote } = person;
           /* TODO add more */
-         
+
           // manage carousel slides by applying classes
           //
           let position = personIndex === index ? 'activeSlide' : 'nextSlide';
           // set previous slide (or last slide if first is current) as prev
-          if (
-            personIndex === index - 1 ||
-            (index === 0 && personIndex === people.length - 1)
-          ) {
+          if (personIndex === prev()) {
             position = 'lastSlide';
           }
           return (
@@ -45,13 +43,13 @@ function App() {
         })}
         <button
           className='prev'
-          onClick={() => setIndex((--index + people.length) % people.length)}
+          onClick={() => setIndex(prev())}
         >
           <FiChevronLeft />
         </button>
         <button
           className='next'
-          onClick={() => setIndex(++index % people.length)}
+          onClick={() => setIndex(next())}
         >
           <FiChevronRight />
         </button>
